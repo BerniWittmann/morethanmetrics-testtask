@@ -7,7 +7,7 @@
       <GlobalNavButton icon="th-large" :displayed-count="1"></GlobalNavButton>
     </div>
     <div class="global-nav__part global-nav__part--center">
-      <p class="global-nav__breadcrumb">Dasboard / My Project / <strong>Persona Tess</strong></p>
+      <p class="global-nav__breadcrumb">Dashboard / My Project / <strong>Persona {{ persona.name }}</strong></p>
     </div>
     <div class="global-nav__part">
       <GlobalNavButton icon="sitemap" display-dropdown-caret>My organization</GlobalNavButton>
@@ -19,14 +19,17 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Component } from 'vue-property-decorator'
+import { Component, namespace, Getter } from 'nuxt-property-decorator'
 import GlobalNavButton from '@/components/GlobalNavButton.vue'
+import { Persona } from '~/models/Persona'
+
+const personaModule = namespace('persona')
 
 @Component({
   components: { GlobalNavButton }
 })
 export default class GlobalNav extends Vue {
-
+  @personaModule.Getter('getPersona') persona!: Persona
 }
 </script>
 

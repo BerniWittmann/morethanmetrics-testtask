@@ -6,9 +6,13 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Component } from 'vue-property-decorator'
+import { Component } from 'nuxt-property-decorator'
 
-@Component
+@Component({
+  async asyncData ({ store }) {
+    await store.dispatch('persona/fetchPersona')
+  }
+})
 export default class IndexPage extends Vue {
 
 }

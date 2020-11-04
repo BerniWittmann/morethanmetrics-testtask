@@ -1,17 +1,20 @@
 <template>
   <div class="main-container">
     <GlobalNav />
+    <Header />
     <Nuxt />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import { Component } from 'vue-property-decorator'
+import { Component } from 'nuxt-property-decorator'
 import GlobalNav from '@/components/GlobalNav.vue'
+import Header from '~/components/Header.vue'
 
 @Component({
   components: {
+    Header,
     GlobalNav
   }
 })

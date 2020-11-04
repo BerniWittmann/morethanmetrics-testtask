@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Component, Prop } from 'vue-property-decorator'
+import { Component, Prop } from 'nuxt-property-decorator'
 
 @Component
 export default class GlobalNavButton extends Vue {
@@ -76,7 +76,7 @@ export default class GlobalNavButton extends Vue {
   &__dropdown-caret {
     margin-left: 10px;
     font-size: 12px;
-    height: 100%;
+    height: 70%;
     & > svg {
       height: 100%;
     }
