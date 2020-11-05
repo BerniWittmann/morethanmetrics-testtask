@@ -13,3 +13,13 @@ export enum FieldTypes {
   IMAGE_GALLERY = 'image-gallery',
   NUMBER = 'number',
 }
+
+export enum PersonaColumnWidth {
+  THIN = 'thin',
+  NORMAL = 'normal',
+  WIDE = 'wide'
+}
+export interface PersonaColumn {
+  id: number,
+  width: PersonaColumnWidth
+}
