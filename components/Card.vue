@@ -63,7 +63,7 @@ export default class Card extends Vue {
 
   &__content {
     background-color: #F0F0F0;
-    padding: 10px;
+    padding: 16px;
     flex: 1;
     border-bottom-left-radius: $border-radius;
     border-bottom-right-radius: $border-radius;
@@ -79,12 +79,14 @@ export default class Card extends Vue {
     border-top-left-radius: $border-radius;
     border-top-right-radius: $border-radius;
 
-    $padding: 10px;
+    $padding: 16px;
     padding: $padding;
 
     &__close-button {
       height: auto;
       width: auto;
+      min-height: 48px;
+      min-width: 48px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -105,7 +107,7 @@ export default class Card extends Vue {
 
       & > svg {
         transition: all 100ms ease-in-out;
-        $svgSize: 16px;
+        $svgSize: 20px;
         width: $svgSize;
         height: $svgSize;
       }

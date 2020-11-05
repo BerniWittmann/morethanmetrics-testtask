@@ -3,11 +3,18 @@
     <transition name="slide">
       <Card width="thin" has-close-button v-if="visible" class="sidebar__card" @close="closeSidebar">
         <template v-slot:header>
-          <p>Add Element</p>
+          <p class="sidebar__header__title">Add Element</p>
         </template>
         <template>
-          <h3>Add element to persona</h3>
-          <p>Testytest</p>
+          <h3 class="sidebar__content__title">Add element to persona</h3>
+          <div class="sidebar__content__note">
+            <p>Click or drag & drop one of the element types below to add it to the persona.</p>
+            <p>Click on the <font-awesome-icon icon="cog"></font-awesome-icon> icon of each element to edit its settings.</p>
+            <p>You can reorder the elements by dragging them.</p>
+          </div>
+          <div class="sidebar__content__template-fields">
+            <TemplateField v-for="type in fieldTypes" :key="type" :type="type"></TemplateField>
+          </div>
         </template>
       </Card>
     </transition>
@@ -21,9 +28,12 @@
 import Vue from 'vue'
 import { Component, Prop, Emit } from 'nuxt-property-decorator'
 import Card from '@/components/Card.vue'
+import TemplateField from '~/components/TemplateField.vue'
+import { FieldTypes } from '~/models/Persona'
 
 @Component({
   components: {
+    TemplateField,
     Card
   }
 })
@@ -37,6 +47,10 @@ export default class Sidebar extends Vue {
   @Emit()
   closeSidebar (): void {
   }
+
+  get fieldTypes (): Array<string> {
+    return Object.values(FieldTypes)
+  }
 }
 </script>
 
@@ -46,13 +60,60 @@ export default class Sidebar extends Vue {
   flex: 1;
   &__card {
     height: 100%;
-    width: 390px;
+  }
+
+  &__header__title {
+    font-size: 12px;
+    color: #646E6E;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-weight: bold;
+  }
+
+  &__content {
+    &__title {
+      color: #3C4646;
+      font-size: 24px;
+      font-weight: 300;
+      letter-spacing: 0;
+    }
+
+    &__note {
+      background-color: #F0F8FC;
+      $padding: 16px;
+      margin-left: -$padding;
+      margin-right: -$padding;
+      padding: 10px $padding;
+      margin-top: 20px;
+      font-size: 14px;
+
+      color: #646E6E;
+      font-style: italic;
+      p {
+        vertical-align: center;
+        margin-bottom: 5px;
+      }
+      svg {
+        margin-left: 3px;
+        height: 14px;
+        position: relative;
+        top: 3px;
+      }
+    }
+    &__template-fields {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      flex-wrap: wrap;
+      padding: -8px;
+      margin-top: 10px;
+    }
   }
 }
 
 .sidebar .sidebar__button {
-  height: 40px;
-  width: 40px;
+  height: 48px;
+  width: 48px;
   flex: 0;
   display: flex;
   justify-content: center;
@@ -74,7 +135,7 @@ export default class Sidebar extends Vue {
 
   & > svg {
     transition: all 100ms ease-in-out;
-    $svgSize: 16px;
+    $svgSize: 20px;
     width: $svgSize;
     height: $svgSize;
   }
