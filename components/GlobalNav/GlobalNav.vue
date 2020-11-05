@@ -20,7 +20,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component, namespace, Getter } from 'nuxt-property-decorator'
-import GlobalNavButton from '@/components/GlobalNavButton.vue'
+import GlobalNavButton from '~/components/GlobalNav/GlobalNavButton.vue'
 import { Persona } from '~/models/Persona'
 
 const personaModule = namespace('persona')

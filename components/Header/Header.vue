@@ -18,8 +18,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'nuxt-property-decorator'
-import HeaderButton from '~/components/HeaderButton.vue'
-import HeaderPersona from '~/components/HeaderPersona.vue'
+import HeaderButton from '~/components/Header/HeaderButton.vue'
+import HeaderPersona from '~/components/Header/HeaderPersona.vue'
 
 @Component({
   components: { HeaderPersona, HeaderButton }

@@ -15,7 +15,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component, namespace, Watch, Ref } from 'nuxt-property-decorator'
-import { Persona } from '@/models/Persona'
+import { Persona } from '~/models/Persona'
 
 const personaModule = namespace('persona')
 

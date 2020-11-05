@@ -15,14 +15,12 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'nuxt-property-decorator'
-import GlobalNav from '@/components/GlobalNav.vue'
-import Header from '~/components/Header.vue'
-import Sidebar from '~/components/Sidebar.vue'
-import PersonaCard from '~/components/PersonaCard.vue'
+import GlobalNav from '~/components/GlobalNav/GlobalNav.vue'
+import Header from '~/components/Header/Header.vue'
+import Sidebar from '~/components/Sidebar/Sidebar.vue'
 
 @Component({
   components: {
-    PersonaCard,
     Sidebar,
     Header,
     GlobalNav
