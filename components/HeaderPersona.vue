@@ -78,13 +78,14 @@ export default class HeaderPersona extends Vue {
   &__edit-icon {
     $edit-icon-color: #B1B6B6;
     color: $edit-icon-color;
-    transition: color 100ms ease-in-out;
+    transition: all 100ms ease-in-out;
     width: 16px;
     margin-left: 10px;
     cursor: pointer;
 
     &:hover {
       color: darken($edit-icon-color, 20%);
+      transform: scale(1.1);
     }
   }
 

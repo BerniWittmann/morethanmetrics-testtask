@@ -1,7 +1,5 @@
 <template>
-  <div class="container">
-    <p>Test</p>
-  </div>
+  <PersonaCard />
 </template>
 
 <script lang="ts">
