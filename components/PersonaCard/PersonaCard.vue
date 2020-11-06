@@ -6,11 +6,7 @@
     <template>
       <div class="persona-card-columns">
         <PersonaCardColumn v-for="column in columns" :key="column.id" :width="column.width">
-          <PersonaCardField type="short-text" name="Occupation" v-model="val"></PersonaCardField>
-          <PersonaCardField type="long-text" name="Long" v-model="val"></PersonaCardField>
-          <PersonaCardField type="number" name="Nr" v-model="val"></PersonaCardField>
-          <PersonaCardField type="image" name="IMG" v-model="val"></PersonaCardField>
-          <PersonaCardField type="image-gallery" name="IMG - Gallery" v-model="val"></PersonaCardField>
+          <PersonaCardField v-for="field in getFieldsForColumn(column.id)" :key="field.id" :type="field.field_type" :name="field.title" :value="field.data" />
         </PersonaCardColumn>
       </div>
     </template>
@@ -22,7 +18,7 @@ import Vue from 'vue'
 import { Component, namespace } from 'nuxt-property-decorator'
 import Card from '~/components/Card.vue'
 import PersonaCardHeader from '~/components/PersonaCard/PersonaCardHeader.vue'
-import { PersonaColumn } from '~/models/Persona'
+import { Field, PersonaColumn } from '~/models/Persona'
 import PersonaCardColumn from '~/components/PersonaCard/PersonaCardColumn.vue'
 import PersonaCardField from '~/components/PersonaCard/PersonaCardField.vue'
 
@@ -38,8 +34,13 @@ const personaModule = namespace('persona')
 })
 export default class PersonaCard extends Vue {
   @personaModule.Getter('getColumns') columns!: Array<PersonaColumn>
-  val: string = 'Test'
+  @personaModule.Getter('getFields') allFields!: Array<Field>
 
+  getFieldsForColumn(columnId: number): Array<Field> {
+    return this.allFields.filter((field) => {
+      return field.column_id === columnId
+    })
+  }
 }
 </script>
 

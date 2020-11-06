@@ -11,6 +11,7 @@ import PersonaCard from '~/components/PersonaCard/PersonaCard.vue'
   async asyncData ({ store }) {
     await store.dispatch('persona/fetchPersona')
     await store.dispatch('persona/fetchColumns')
+    await store.dispatch('persona/fetchFields')
   },
   components: {
     PersonaCard

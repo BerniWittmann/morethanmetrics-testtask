@@ -7,10 +7,10 @@ export interface Persona {
 }
 
 export enum FieldTypes {
-  SHORT_TEXT = 'short-text',
-  LONG_TEXT = 'long-text',
+  SHORT_TEXT = 'short_text',
+  LONG_TEXT = 'long_text',
   IMAGE = 'image',
-  IMAGE_GALLERY = 'image-gallery',
+  IMAGE_GALLERY = 'image_gallery',
   NUMBER = 'number',
 }
 
@@ -22,4 +22,14 @@ export enum PersonaColumnWidth {
 export interface PersonaColumn {
   id: number,
   width: PersonaColumnWidth
+}
+
+export interface Field {
+  id: number
+  title: string
+  field_type: FieldTypes
+  data: string
+  column_id: number
+  prev_id: number | null
+  next_id: number | null
 }
