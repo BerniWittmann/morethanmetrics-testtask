@@ -15,6 +15,7 @@
     "@fortawesome/vue-fontawesome": "2",
     "@nuxt/typescript-runtime": "^2.0.0",
     "@nuxtjs/axios": "^5.12.2",
+    "@thi.ng/dcons": "^2.3.0",
     "core-js": "^3.6.5",
     "nuxt": "^2.14.6",
     "nuxt-property-decorator": "^2.8.8",

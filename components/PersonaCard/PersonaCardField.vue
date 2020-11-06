@@ -16,8 +16,8 @@
         <font-awesome-icon icon="paint-brush"></font-awesome-icon>
         <font-awesome-icon icon="link"></font-awesome-icon>
       </div>
-      <div v-if="isTextType" class="persona-card-field__content__text">
-        <span v-if="!isEditing" @click="edit">{{ cache }}</span>
+      <div v-if="isTextType" :class="'persona-card-field__content__text ' + (isEmpty && 'persona-card-field__content__text--empty')">
+        <span v-if="!isEditing" @click="edit">{{ isEmpty ? 'Enter Text...' : cache }}</span>
         <textarea v-else-if="isLongTextType"
                   v-model="cache"
                   placeholder="Enter text..."
@@ -55,16 +55,20 @@ export default class PersonaCardField extends Vue {
   @Prop(EnumProp(FieldTypes.SHORT_TEXT, FieldTypes)) type!: FieldTypes
 
   @Model('change', { type: String }) readonly value?: string
-  cache: string = 'Enter text...'
+  cache: string = ''
   isEditing: boolean = false
+
+  get isEmpty(): boolean {
+    return !this.cache || this.cache.trim().length === 0
+  }
 
   @Watch('value', { immediate: true })
   onValueChange(val: string) {
-    this.cache = val || 'Enter text...'
+    this.cache = val || ''
   }
 
-  deleteField (): void {
-  }
+  @Emit('delete')
+  deleteField (): void {}
 
   get isTextType (): boolean {
     return [FieldTypes.SHORT_TEXT, FieldTypes.LONG_TEXT, FieldTypes.NUMBER].includes(this.type)
@@ -76,7 +80,7 @@ export default class PersonaCardField extends Vue {
 
   get hasError(): boolean{
     if (!this.required) return false
-    return !this.cache || this.cache.trim().length === 0
+    return this.isEmpty
   }
 
   get images (): Array<string> {
@@ -189,6 +193,9 @@ export default class PersonaCardField extends Vue {
     &__text {
       span {
         cursor: pointer;
+      }
+      &--empty {
+        color: #B1B6B6;
       }
 
       input, textarea {

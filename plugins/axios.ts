@@ -6,7 +6,7 @@ export default function ({ $axios }: { $axios: NuxtAxiosInstance })  {
     return config
   })
   $axios.interceptors.response.use((response) => {
-    if (response.config.method && ['POST', 'PUT', 'PATCH', 'DELETE'].includes(response.config.method.toUpperCase())) {
+    if (response.config.method && ['POST', 'PUT', 'PATCH'].includes(response.config.method.toUpperCase())) {
       // Use Data from Request for better prototyping
       response.data = JSON.parse(response.config.data)
     }

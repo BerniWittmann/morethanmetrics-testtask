@@ -1,12 +1,13 @@
 <template>
   <Card width="full">
     <template v-slot:header>
-      <PersonaCardHeader />
+      <PersonaCardHeader/>
     </template>
     <template>
       <div class="persona-card-columns">
         <PersonaCardColumn v-for="column in columns" :key="column.id" :width="column.width">
-          <PersonaCardField v-for="field in getFieldsForColumn(column.id)" :key="field.id" :type="field.field_type" :name="field.title" :value="field.data" />
+          <PersonaCardField v-for="field in getFieldsForColumn(column.id)" :key="field.id" :type="field.field_type"
+                            :name="field.title" :value="field.data" @change="(val) => updateFieldValue(val, field)" @delete="deleteField(field)"/>
         </PersonaCardColumn>
       </div>
     </template>
@@ -34,12 +35,17 @@ const personaModule = namespace('persona')
 })
 export default class PersonaCard extends Vue {
   @personaModule.Getter('getColumns') columns!: Array<PersonaColumn>
-  @personaModule.Getter('getFields') allFields!: Array<Field>
+  @personaModule.Getter('getFieldsForColumn') getFieldsForColumn!: (columnId: number) => Array<Field>
 
-  getFieldsForColumn(columnId: number): Array<Field> {
-    return this.allFields.filter((field) => {
-      return field.column_id === columnId
+  updateFieldValue (value: string, field: Field): void {
+    this.$store.dispatch('persona/updateField', {
+      ...field,
+      data: value
     })
+  }
+
+  deleteField (field: Field): void {
+    this.$store.dispatch('persona/deleteField', field)
   }
 }
 </script>
@@ -51,6 +57,7 @@ export default class PersonaCard extends Vue {
   justify-content: space-between;
   align-items: flex-start;
 }
+
 .filler {
   background-color: white;
   width: 100%;

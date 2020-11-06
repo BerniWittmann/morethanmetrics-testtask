@@ -1,6 +1,35 @@
 import { GetterTree, MutationTree, ActionTree } from 'vuex'
 import { RootState } from '~/store'
 import { Field, FieldTypes, Persona, PersonaColumn } from '~/models/Persona'
+import { DCons } from '@thi.ng/dcons'
+
+function getFieldList(fields: Array<Field>, columnId: number): DCons<Field> {
+  // Get only fields of relevant column
+  const relevantFields = fields.filter((f: Field) => {
+    return f.column_id === columnId
+  })
+  // Adjust sorting by prev and next with double linked list
+  let list = new DCons<Field>()
+  relevantFields.forEach((f: Field) => {
+    list.insertSorted(f, (field, otherField) => {
+      if (otherField.prev_id === field.id) return -1
+      return 1
+    })
+  })
+  // Adjust prev_id and next_id according to list position
+  list = list.map((f) => {
+    const node = list.find(f)
+    if (!node) {
+      return f
+    }
+    return {
+      ...f,
+      prev_id: node.prev ? node.prev.value.id : null,
+      next_id: node.next ? node.next.value.id : null
+    } as Field
+  });
+  return list
+}
 
 interface Store {
   persona?: Persona,
@@ -31,9 +60,16 @@ export const getters: GetterTree<PersonaState, RootState> = {
   getFields (state): Array<Field> {
     return state.fields
   },
+  getFieldsForColumn (state, getters) {
+    return function (columnId: number): Array<Field> {
+      return getters.getFields.filter((f: Field) => {
+        return f.column_id === columnId
+      })
+    }
+  },
 }
 
-export const actions: ActionTree<Persona, RootState> = {
+export const actions: ActionTree<PersonaState, RootState> = {
   async fetchPersona (context) {
     const data = await this.$axios.$get('/42')
     context.commit('setPersona', data)
@@ -45,6 +81,15 @@ export const actions: ActionTree<Persona, RootState> = {
   async fetchColumns (context) {
     const data = await this.$axios.$get('/42/columns')
     context.commit('setColumns', data)
+  },
+  async updateField (context, field: Field) {
+    const data = await this.$axios.$put(`/42/fields/${field.id}`, field)
+    context.commit('updateField', data)
+  },
+  async deleteField (context, field: Field) {
+    await this.$axios.$delete(`/42/fields/${field.id}`, field)
+    context.commit('deleteField', field)
+    context.commit('updateFieldOrderStatus', field.column_id)
   },
   async fetchFields (context) {
     const data = await this.$axios.$get('/42/fields')
@@ -81,14 +126,6 @@ export const actions: ActionTree<Persona, RootState> = {
       prev_id: 102,
       next_id: null
     }, {
-      id: 104,
-      title: 'Occupation',
-      field_type: FieldTypes.SHORT_TEXT,
-      data: 'Researcher',
-      column_id: 2,
-      prev_id: null,
-      next_id: 105
-    }, {
       id: 105,
       title: 'Nationality',
       field_type: FieldTypes.SHORT_TEXT,
@@ -97,13 +134,13 @@ export const actions: ActionTree<Persona, RootState> = {
       prev_id: 104,
       next_id: 106
     }, {
-      id: 106,
-      title: 'Marital Status',
+      id: 104,
+      title: 'Occupation',
       field_type: FieldTypes.SHORT_TEXT,
-      data: '--',
+      data: 'Researcher',
       column_id: 2,
-      prev_id: 105,
-      next_id: 107
+      prev_id: null,
+      next_id: 105
     }, {
       id: 107,
       title: 'Quote',
@@ -123,8 +160,20 @@ export const actions: ActionTree<Persona, RootState> = {
       column_id: 2,
       prev_id: 107,
       next_id: null
-    }]
+    }, {
+      id: 106,
+      title: 'Marital Status',
+      field_type: FieldTypes.SHORT_TEXT,
+      data: '--',
+      column_id: 2,
+      prev_id: 105,
+      next_id: 107
+    },]
+    data[2].next_id = 100
     context.commit('setFields', [...data, ...mockData])
+    context.state.columns.forEach((column: PersonaColumn) => {
+      context.commit('updateFieldOrderStatus', column.id)
+    })
   }
 }
 
@@ -137,5 +186,23 @@ export const mutations: MutationTree<PersonaState> = {
   },
   setFields (state, fields: Array<Field>) {
     state.fields = fields
+  },
+  updateField (state, field: Field) {
+    state.fields = state.fields.map((f) => {
+      return f.id === field.id ? field : f
+    })
+  },
+  deleteField (state, field: Field) {
+    state.fields = state.fields.filter((f) => {
+      return f.id !== field.id
+    })
+  },
+  updateFieldOrderStatus (state, columnId: number) {
+    const list = getFieldList(state.fields, columnId)
+
+    const unrelatedFields = [...state.fields.filter((f: Field) => {
+      return f.column_id !== columnId
+    })]
+    state.fields = [...unrelatedFields, ...(list.toJSON() as Array<Field>)]
   }
 }
