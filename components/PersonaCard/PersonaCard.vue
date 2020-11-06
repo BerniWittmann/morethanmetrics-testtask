@@ -6,7 +6,7 @@
     <template>
       <div class="persona-card-columns">
         <PersonaCardColumn v-for="column in columns" :key="column.id" :width="column.width">
-          <PersonaCardField v-for="field in getFieldsForColumn(column.id)" :key="field.id" :type="field.field_type"
+          <PersonaCardField v-for="field in getFieldsForColumn(column.id)" :key="field.id" :type="field.field_type" :field="field"
                             :name="field.title" :value="field.data" @change="(val) => updateFieldValue(val, field)" @delete="deleteField(field)"/>
         </PersonaCardColumn>
       </div>

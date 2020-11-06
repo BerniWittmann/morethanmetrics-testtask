@@ -67,6 +67,13 @@ export const getters: GetterTree<PersonaState, RootState> = {
       })
     }
   },
+  getFieldById (state, getters) {
+    return function (id: number): Field | undefined {
+      return getters.getFields.find((f: Field) => {
+        return f.id === id
+      })
+    }
+  },
 }
 
 export const actions: ActionTree<PersonaState, RootState> = {
@@ -90,6 +97,20 @@ export const actions: ActionTree<PersonaState, RootState> = {
     await this.$axios.$delete(`/42/fields/${field.id}`, field)
     context.commit('deleteField', field)
     context.commit('updateFieldOrderStatus', field.column_id)
+  },
+  async createField (context, { type, nextField }: { type: FieldTypes, nextField: Field }) {
+    const newField: Field = {
+      id: context.getters.getFields.length + 100,
+      field_type: type,
+      title: 'New Field',
+      data: '',
+      column_id: nextField.column_id,
+      next_id: nextField.id,
+      prev_id: nextField.prev_id
+    }
+    context.commit('createField', { newField, nextField })
+    const newFieldData = context.getters.getFieldById(newField.id)
+    await this.$axios.$post(`/42/fields`, newFieldData)
   },
   async fetchFields (context) {
     const data = await this.$axios.$get('/42/fields')
@@ -202,6 +223,19 @@ export const mutations: MutationTree<PersonaState> = {
 
     const unrelatedFields = [...state.fields.filter((f: Field) => {
       return f.column_id !== columnId
+    })]
+    state.fields = [...unrelatedFields, ...(list.toJSON() as Array<Field>)]
+  },
+  createField (state, { newField, nextField }: { newField: Field, nextField: Field }) {
+    const list = getFieldList(state.fields, nextField.column_id)
+    const nextNode = list.findWith((f: Field) => f.id === nextField.id)
+    if (!nextNode) {
+      list.push(newField)
+    } else {
+      list.insertBefore(nextNode, newField)
+    }
+    const unrelatedFields = [...state.fields.filter((f: Field) => {
+      return f.column_id !== nextField.column_id
     })]
     state.fields = [...unrelatedFields, ...(list.toJSON() as Array<Field>)]
   }

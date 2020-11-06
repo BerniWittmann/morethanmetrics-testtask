@@ -1,8 +1,8 @@
 <template>
   <div class="persona-card-header">
     <Avatar :color="persona.color"></Avatar>
-    <PersonaCardField type="short_text" name="Persona Name" v-model="name" :deletable="false" :required="true" />
-    <PersonaCardField type="short_text" name="Short Name" v-model="shortName" :deletable="false" :required="true" @change="updatePersona"/>
+    <PersonaCardField type="short_text" name="Persona Name" v-model="name" :deletable="false" :droppable="false" :required="true" />
+    <PersonaCardField type="short_text" name="Short Name" v-model="shortName" :deletable="false" :droppable="false" :required="true" @change="updatePersona"/>
   </div>
 </template>
 
@@ -63,7 +63,7 @@ export default class PersonaCardHeader extends Vue {
 
   .avatar {
   }
-  .persona-card-field {
+  .persona-card-field__drag-wrap {
     flex: 1;
     &:first-of-type {
       flex: 2;
