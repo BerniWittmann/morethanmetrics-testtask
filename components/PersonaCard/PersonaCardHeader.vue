@@ -63,11 +63,18 @@ export default class PersonaCardHeader extends Vue {
 
   .avatar {
   }
+}
+</style>
+<style lang="scss">
+.persona-card-header {
   .persona-card-field__drag-wrap {
     flex: 1;
     &:first-of-type {
       flex: 2;
     }
+  }
+  .persona-card-field {
+    margin-bottom: 0 !important;
   }
 }
 </style>
