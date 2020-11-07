@@ -4,7 +4,7 @@
       <span>Insert element here</span>
     </div>
 
-    <div class="persona-card-field">
+    <div class="persona-card-field" :draggable="draggable" @dragstart="startDrag">
       <div class="persona-card-field__title">
         {{ name }}
         <span v-if="deletable" class="persona-card-field__delete" @click="deleteField">
@@ -41,7 +41,7 @@
                  :class="hasError && 'invalid'"
           />
         </div>
-        <img v-for="(imgSrc, index) in images" :key="index" :src="imgSrc" alt="Image"
+        <img v-for="(imgSrc, index) in images" :key="index" :src="imgSrc" alt="Image" :draggable="false"
              class="persona-card-field__content__image"/>
       </div>
     </div>
@@ -59,6 +59,7 @@ export default class PersonaCardField extends Vue {
   @Prop({ type: Boolean, default: true }) readonly deletable!: boolean
   @Prop({ type: Boolean, default: false }) readonly required!: boolean
   @Prop({ type: Boolean, default: true }) readonly droppable!: boolean
+  @Prop({ type: Boolean, default: true }) readonly draggable!: boolean
   @Prop({ type: String, required: true }) readonly name!: string
   @Prop({ type: Object as PropType<Field> }) readonly field?: Field
   @Prop(EnumProp(FieldTypes.SHORT_TEXT, FieldTypes)) readonly type!: FieldTypes
@@ -140,6 +141,12 @@ export default class PersonaCardField extends Vue {
     this.draggedOver = false
   }
 
+  startDrag (ev: DragEvent): void {
+    if (!this.draggable || !this.field) return
+    ev.dataTransfer!.setData('type', 'field')
+    ev.dataTransfer!.setData('field_id', this.field!.id.toString())
+  }
+
   handleDrop (ev: DragEvent) {
     if (!this.field) return
     this.draggedOver = false
@@ -149,6 +156,14 @@ export default class PersonaCardField extends Vue {
     if (Object.values(FieldTypes).includes(type as FieldTypes)) {
       this.$store.dispatch('persona/createField', {
         type,
+        nextField: this.field
+      })
+    } else if (type === 'field') {
+      const fieldId = ev.dataTransfer.getData('field_id')
+      if (!fieldId) return
+      if (fieldId === this.field.id.toString()) return
+      this.$store.dispatch('persona/moveField', {
+        fieldId: parseInt(fieldId),
         nextField: this.field
       })
     }
@@ -166,6 +181,7 @@ export default class PersonaCardField extends Vue {
   padding: 12px;
   border-radius: 2px;
   margin-bottom: 16px;
+  cursor: pointer;
 
   &__drag-wrap {
     width: 100%;

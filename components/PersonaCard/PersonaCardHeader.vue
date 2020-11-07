@@ -1,8 +1,8 @@
 <template>
   <div class="persona-card-header">
     <Avatar :color="persona.color"></Avatar>
-    <PersonaCardField type="short_text" name="Persona Name" v-model="name" :deletable="false" :droppable="false" :required="true" />
-    <PersonaCardField type="short_text" name="Short Name" v-model="shortName" :deletable="false" :droppable="false" :required="true" @change="updatePersona"/>
+    <PersonaCardField type="short_text" name="Persona Name" v-model="name" :deletable="false" :droppable="false" :draggable="false" :required="true" />
+    <PersonaCardField type="short_text" name="Short Name" v-model="shortName" :deletable="false" :droppable="false" :draggable="false" :required="true" @change="updatePersona"/>
   </div>
 </template>
 
