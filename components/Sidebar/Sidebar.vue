@@ -27,7 +27,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component, Prop, Emit } from 'nuxt-property-decorator'
-import Card from '~/components/Card.vue'
+import Card from '~/components/shared/Card.vue'
 import TemplateField from '~/components/Sidebar/TemplateField.vue'
 import { FieldTypes } from '~/models/Persona'
 

@@ -17,7 +17,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component, namespace } from 'nuxt-property-decorator'
-import Card from '~/components/Card.vue'
+import Card from '~/components/shared/Card.vue'
 import PersonaCardHeader from '~/components/PersonaCard/PersonaCardHeader.vue'
 import { Field, PersonaColumn } from '~/models/Persona'
 import PersonaCardColumn from '~/components/PersonaCard/PersonaCardColumn.vue'
