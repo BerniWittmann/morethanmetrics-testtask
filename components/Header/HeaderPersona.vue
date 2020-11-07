@@ -56,10 +56,12 @@ export default class HeaderPersona extends Vue {
   $color: #3C4646;
   color: $color;
   display: flex;
+  align-items: center;
 
 
   &__main-icon {
     width: 22px;
+    height: auto;
     margin-right: 15px;
   }
 
@@ -69,10 +71,12 @@ export default class HeaderPersona extends Vue {
 
   &__title {
     margin-right: 5px;
+    height: auto;
   }
 
   &__name {
     font-weight: bold;
+    height: auto;
   }
 
   &__edit-icon {
@@ -80,6 +84,7 @@ export default class HeaderPersona extends Vue {
     color: $edit-icon-color;
     transition: all 100ms ease-in-out;
     width: 16px;
+    height: auto;
     margin-left: 10px;
     cursor: pointer;
 

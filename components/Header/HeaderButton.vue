@@ -40,6 +40,7 @@ export default class HeaderButton extends Vue {
   }
   &__icon {
     height: 20px;
+    width: auto;
     margin-bottom: 5px;
   }
 }

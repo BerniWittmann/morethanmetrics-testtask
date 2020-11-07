@@ -37,7 +37,7 @@ export default class PersonaCardColumn extends Vue {
   }
 
   &--width-normal {
-    flex: 1;
+    flex: 1 1 auto;
   }
   &--width-thin {
     flex: calc(2/3);

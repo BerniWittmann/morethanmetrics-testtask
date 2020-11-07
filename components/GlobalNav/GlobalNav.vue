@@ -37,7 +37,7 @@ export default class GlobalNav extends Vue {
 $height: 36px;
 
 .global-nav {
-  height: $height;
+  min-height: $height;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -72,7 +72,7 @@ $height: 36px;
   }
 
   &__brand-image {
-    flex: 1;
+    flex: 1 1 auto;
     height: 24px;
     margin-right: 8px;
   }

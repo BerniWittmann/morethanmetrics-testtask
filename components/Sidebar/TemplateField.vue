@@ -115,18 +115,18 @@ export default class TemplateField extends Vue {
 
   &__icon {
     width: 40px;
-    flex: 1;
+    flex: 1 1 auto;
     color: #646e6e;
   }
   &__illustration-string {
-    flex: 1;
+    flex: 1 1 auto;
     font-weight: lighter;
     color: #646e6e;
     text-align: center;
     vertical-align: center;
   }
   &__text {
-    flex: 0;
+    flex: 0 0 auto;
     color: #646e6e;
     font-size: 12px;
     font-weight: bold;

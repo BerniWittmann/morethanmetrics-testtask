@@ -188,7 +188,7 @@ export default class PersonaCardField extends Vue {
   }
 
   &__title {
-    flex: 0;
+    flex: 0 0 auto;
     font-size: 12px;
     color: #B1B6B6;
     font-weight: bold;

@@ -19,15 +19,15 @@ export default class Avatar extends Vue {
 
 .avatar {
   $size: 66px;
-  width: $size;
-  height: $size;
+  min-width: $size;
+  height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
   color: #333333;
   svg {
-    width: $size/1.75;
     height: $size/1.75;
+    width: auto;
   }
 }
 </style>

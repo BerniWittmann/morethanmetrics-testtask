@@ -57,7 +57,7 @@ export default class Sidebar extends Vue {
 <style lang="scss" scoped>
 
 .sidebar {
-  flex: 1;
+  flex: 1 1 auto;
   &__card {
     height: 100%;
   }
@@ -114,7 +114,7 @@ export default class Sidebar extends Vue {
 .sidebar .sidebar__button {
   height: 48px;
   width: 48px;
-  flex: 0;
+  flex: 0 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;

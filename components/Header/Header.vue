@@ -32,7 +32,7 @@ export default class Header extends Vue {
 <style lang="scss" scoped>
 
 .header {
-  height: 64px;
+  min-height: 64px;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -46,6 +46,7 @@ export default class Header extends Vue {
     flex-direction: row;
     align-items: center;
     width: auto;
+    flex: 0 0 auto;
     &--center {
       margin: 5px 0;
     }
